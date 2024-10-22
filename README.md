@@ -1,46 +1,52 @@
-# Getting Started with Create React App
+# ReFlax UI
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Implementation details
+1. Built using React and Material UI.
+2. Wallet: Rainbow wallet kit
 
-## Available Scripts
+## Description
+Reflax is a yield staking dapp that simplifies earning yield from protocols like Convex, CRV, Beefy etc. Holders of Flax can optionally boost their yields.
 
-In the project directory, you can run:
+## Problem being solved
+Restaking apps like Convex and Beedy cater to DeFi power users who know how to game protocols and have the patience to learn the ropes. Instead of requiring users to engage in recursive acts of pooling and staking, Reflax does it all in one transaction. 
 
-### `yarn start`
+To illstrate the improvement, let's use an example. Suppose Jerome, holder of USDC, wants to stake in Convex's USDe/USDx boosted pool. Without Reflax, Jerome might do the following
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. Sell USDC into CRV's USDe/USDc pool to gain USDe.
+2. Pool USDe into USDe/USDx to mint LP tokens
+3. Stake LP token in Convex's boosted USDe/USDx pool.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+On claiming, Convex pays CRV as a reward. Jerome might decide to then sell CRV for USDe.
 
-### `yarn test`
+When Jerome wants to unstake, he has to reverse the above process:
+4. Unstake LP token from Convex
+5. Withdraw USDe from the LP token on CRV
+6. Sell USDe for USDC on CRV
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+With Reflax, Jerome simply stakes USDC. Under the hood, the USDc is pooled and staked as per steps 1-3. When he wishes to unstake, he simpy supplied the amount of USDc he wishes to withdraw and Reflax figures out the rest.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## How does Flax come in to it?
+In Restaking dapps such as Convex and Beefy, there are usually multiple reward tokens paid out, representing governance tokens at each protocol layer. This can be tedious for a claiming user to sweep up, calculate in a common currency and sell. Reflax converts all of the reward tokens to a common token, Flax without incurring a price impact in the conversion. 
+Flax is immediately paid out on claim.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Boosted Yield
+In addition to simplifying the farming scene, Reflax offers holders of Flax the ability to boost their yield higher than the target protocol. This essentially puts Reflax at the top of the list of APY earning for a given token. This feature is optional so that users who simply wish to experience the ease of use of Reflax can earn the same APY as the target protocol.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+If you're familiar with CRV and Convex, you'll be aware of the veCRV model of yield boosting. To refresh, the CRV site shows a range of APYs for a given token. By default, staking earns the lower range. If you lock your CRV token in the CRV DAO for a protracted period of time (anywhere from a few months to 4 years), your APY is significantly boosted.
 
-### `yarn eject`
+Reflax follows a similar principle with a few simplifications.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## sFlax
+Staking Flax in the staking module earns a new ERC20 token called sFlax. The amount of sFlax earned per second is proportional to both the amount of Flax staked and the duration of the lock. When locking Flax, a period of between 1 and 48 months can be selected.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### How to boost yield
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+When you claim rewards on Reflax, your reward in Flax is boosted by the amount of sFlax in your wallet. Your sFlax balance is then burnt. The UI will report the boost you will receive.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Why a new token?
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+There are a few benefits to tokenizing the locked Flax: 
+1. Stake once, boost everywhere: sFlax can be used to boost all Flax dapps in the future. After ReFlax is live, Bonfire will be upgraded to accept sFlax. If we simply observed locked Flax on the staking module, we'd be confined to one chain. An ERC20 token can be bridged and used on any chain.
+2. Locking market. Once sFlax begins trading on AMMs, its price will reflect the market premium on waiting (discount rate in economic terms). This will allow patient users to earn a secondary income by staking Flax and selling sFlax to impatient users who would rather just boost their yield in one go without having to stake Flax.
+3. Once Bonfire has been upgraded, sFlax/eth an other pairs can be added to Bonfire to increase the demand for Flax staking.
