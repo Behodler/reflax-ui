@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-function App() {
+import SignInSide from './components/sign-in-side/SignInSide'
+import ForgotPassword from './components/sign-in-side/ForgotPassword'
+
+import ReflaxAppBar from "./components/ReflaxAppBar";
+import AppTheme from "./components/shared-theme/AppTheme";
+import { CssBaseline } from "@mui/material";
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppTheme >
+      <CssBaseline enableColorScheme />
+      <ReflaxAppBar />
+
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<SignInSide />} />
+
+        </Routes>
+      </BrowserRouter>
+    </AppTheme> 
   );
 }
-
-export default App;
