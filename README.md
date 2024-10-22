@@ -19,6 +19,7 @@ To illustrate the improvement, let's use an example. Suppose Jerome, holder of U
 On claiming, Convex pays CRV as a reward. Jerome might decide to then sell CRV for USDe.
 
 When Jerome wants to unstake, he has to reverse the above process:
+
 4. Unstake LP token from Convex
 5. Withdraw USDe from the LP token on CRV
 6. Sell USDe for USDC on CRV
