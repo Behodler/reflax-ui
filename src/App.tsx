@@ -7,6 +7,7 @@ import ForgotPassword from './components/sign-in-side/ForgotPassword'
 import ReflaxAppBar from "./components/ReflaxAppBar";
 import AppTheme from "./components/shared-theme/AppTheme";
 import { CssBaseline } from "@mui/material";
+import Landing from "./pages/Landing";
 
 export default function App() {
   return (
@@ -16,7 +17,7 @@ export default function App() {
 
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<SignInSide />} />
+          <Route path="/" element={<Landing />} />
 
         </Routes>
       </BrowserRouter>
