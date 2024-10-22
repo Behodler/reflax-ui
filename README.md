@@ -10,7 +10,7 @@ Reflax is a yield staking dapp that simplifies earning yield from protocols like
 ## Problem being solved
 Restaking apps like Convex and Beedy cater to DeFi power users who know how to game protocols and have the patience to learn the ropes. Instead of requiring users to engage in recursive acts of pooling and staking, Reflax does it all in one transaction. 
 
-To illstrate the improvement, let's use an example. Suppose Jerome, holder of USDC, wants to stake in Convex's USDe/USDx boosted pool. Without Reflax, Jerome might do the following
+To illustrate the improvement, let's use an example. Suppose Jerome, holder of USDC, wants to stake in Convex's USDe/USDx boosted pool. Without Reflax, Jerome might do the following
 
 1. Sell USDC into CRV's USDe/USDc pool to gain USDe.
 2. Pool USDe into USDe/USDx to mint LP tokens
@@ -24,25 +24,30 @@ When Jerome wants to unstake, he has to reverse the above process:
 6. Sell USDe for USDC on CRV
 
 
-With Reflax, Jerome simply stakes USDC. Under the hood, the USDc is pooled and staked as per steps 1-3. When he wishes to unstake, he simpy supplied the amount of USDc he wishes to withdraw and Reflax figures out the rest.
+With Reflax, Jerome simply stakes USDC. Under the hood, the USDc is pooled and staked as per steps 1-3. When he wishes to unstake, he simpy supplies the amount of USDc he wishes to withdraw and Reflax figures out the rest.
 
 ## How does Flax come in to it?
-In Restaking dapps such as Convex and Beefy, there are usually multiple reward tokens paid out, representing governance tokens at each protocol layer. This can be tedious for a claiming user to sweep up, calculate in a common currency and sell. Reflax converts all of the reward tokens to a common token, Flax without incurring a price impact in the conversion. 
+In Restaking dapps such as Convex and Beefy, there are usually multiple reward tokens paid out, representing governance tokens at each protocol layer. This can be tedious for a claiming user to sweep up, calculate in a common currency and sell. Reflax converts all of the reward tokens to a common token, Flax, without incurring a price impact in the conversion. 
 Flax is immediately paid out on claim.
 
 # Boosted Yield
-In addition to simplifying the farming scene, Reflax offers holders of Flax the ability to boost their yield higher than the target protocol. This essentially puts Reflax at the top of the list of APY earning for a given token. This feature is optional so that users who simply wish to experience the ease of use of Reflax can earn the same APY as the target protocol.
+In addition to simplifying the farming scene, Reflax offers holders of Flax the ability to boost their yield higher than the target protocol. This essentially puts Reflax at the top of the list of APY earning for a given token. This feature is optional so that users who simply wish to experience the ease of use of Reflax can earn the same APY as the target protocol without worrying about boosting.
 
 If you're familiar with CRV and Convex, you'll be aware of the veCRV model of yield boosting. To refresh, the CRV site shows a range of APYs for a given token. By default, staking earns the lower range. If you lock your CRV token in the CRV DAO for a protracted period of time (anywhere from a few months to 4 years), your APY is significantly boosted.
 
-Reflax follows a similar principle with a few simplifications.
+Reflax follows a similar model with a few simplifications.
 
 ## sFlax
-Staking Flax in the staking module earns a new ERC20 token called sFlax. The amount of sFlax earned per second is proportional to both the amount of Flax staked and the duration of the lock. When locking Flax, a period of between 1 and 48 months can be selected.
+Flax can now be locked in a staking module for any length of time between 1 and 48 months. Staking Flax in the staking module earns a new ERC20 token called sFlax. The amount of sFlax earned per second is proportional to both the amount of Flax staked and the duration of the lock. If you wish to earn more sFlax per second, either lock for longer or lock more (or both).
 
 ### How to boost yield
 
 When you claim rewards on Reflax, your reward in Flax is boosted by the amount of sFlax in your wallet. Your sFlax balance is then burnt. The UI will report the boost you will receive.
+
+For instance, suppose the APY on USDC is currently 12% without any sFlax. The UI may report that for every 1000 sFlax held, the APY increases by 1 percentage point. Jerome accumulates 3000 sFlax. When he claims, he receives 15%. 
+As soon as he claims, the 3000 sFlax is burnt.
+
+The numbers in the above example are all fictional and simply serve to illustrate the concept.
 
 ### Why a new token?
 
