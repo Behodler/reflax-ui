@@ -55,4 +55,4 @@ The numbers in the above example are all fictional and simply serve to illustrat
 There are a few benefits to tokenizing the locked Flax: 
 1. Stake once, boost everywhere: sFlax can be used to boost all Flax dapps in the future. After ReFlax is live, Bonfire will be upgraded to accept sFlax. If we simply observed locked Flax on the staking module, we'd be confined to one chain. An ERC20 token can be bridged and used on any chain.
 2. Locking market. Once sFlax begins trading on AMMs, its price will reflect the market premium on waiting (discount rate in economic terms). This will allow patient users to earn a secondary income by staking Flax and selling sFlax to impatient users who would rather just boost their yield in one go without having to stake Flax.
-3. Once Bonfire has been upgraded, sFlax/eth an other pairs can be added to Bonfire to increase the demand for Flax staking.
+3. Once Bonfire has been upgraded, sFlax/eth and other sFlax pairs can be added to Bonfire to increase the demand for Flax staking.
