@@ -1,6 +1,6 @@
 import { Divider, Stack, useMediaQuery, useTheme } from "@mui/material";
 import SignInSide from "../../components/sign-in-side/SignInSide";
-
+import Vault from "../../components/vault/Vault"
 export default function Landing() {
     const theme = useTheme();
     const isMediumOrLarger = useMediaQuery(theme.breakpoints.up('md')); // Check if screen is medium or larger
@@ -56,7 +56,7 @@ export default function Landing() {
             >
                 <Stack direction="column">
                     {isMediumOrLarger ? '' : <h2>Vaults</h2>}
-                    <SignInSide sectionName="Vaults" />
+                    <Vault sectionName="Vaults" />
                     {isMediumOrLarger ? <></> : <> <Divider sx={{ margin: '10px 0 10px 0', borderBottomWidth: 2, borderColor: 'primary.main' }} />
                         <h2>Locked Flax</h2></>}
                     <SignInSide sectionName="Locked Flax" />
