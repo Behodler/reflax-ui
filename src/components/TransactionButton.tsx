@@ -1,23 +1,24 @@
 import { Button } from "@mui/material"
-
+import CircularProgress from '@mui/material/CircularProgress';
 interface TransactionButtonProps {
     approved: boolean
     approveFunction?: () => void //hide approve button if undefined
     transactionText: string
     transactionFunction: () => void
     width: number
+    spinning?: boolean
 }
 
 export default function TransactionButton({ approved,
     approveFunction,
     transactionText,
     transactionFunction,
-    width }: TransactionButtonProps) {
+    width, spinning }: TransactionButtonProps) {
     if (approved) {
-        return <Button
+        return spinning ? <CircularProgress /> : <Button
             sx={{
                 width: `${width}px`,
-                marginLeft:'10px'  // Prevents the button from having a default min width
+                marginLeft: '10px'  // Prevents the button from having a default min width
             }}
             fullWidth variant="contained" onClick={transactionFunction}>
             {transactionText}
@@ -26,7 +27,7 @@ export default function TransactionButton({ approved,
     else {
         if (!approveFunction)
             return <></>
-        return <Button
+        return spinning ? <CircularProgress /> : <Button
             sx={{
                 width: "100px"    // Prevents the button from having a default min width
             }}

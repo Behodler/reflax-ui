@@ -7,7 +7,7 @@ import RotatedText from '../RotatedText';
 import { Box, useMediaQuery, useTheme } from '@mui/material';
 import Form from './Form';
 
-export default function Vault(props: { sectionName: string }) {
+export default function Locker(props: { sectionName: string }) {
   const theme = useTheme();
   const isMediumOrLarger = useMediaQuery(theme.breakpoints.up('md')); // Check if screen is medium or larger
 

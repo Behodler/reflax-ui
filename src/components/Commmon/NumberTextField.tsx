@@ -30,7 +30,6 @@ export default function NumberTextField({ label, id, maxValue, defaultValue, val
     };
     useEffect(() => {
         const val_num = value.trim() === "" ? 0 : parseFloat(value.trim())
-        console.log('Val_num ' + val_num)
         const message = errorMessage(val_num, maxValue)
         setInputError(message !== "")
         setInputErrorMessage(message)

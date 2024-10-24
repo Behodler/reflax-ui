@@ -8,7 +8,7 @@
 Reflax is a yield staking dapp that simplifies earning yield from protocols like Convex, CRV, Beefy etc. Holders of Flax can optionally boost their yields.
 
 ## Problem being solved
-Restaking apps like Convex and Beedy cater to DeFi power users who know how to game protocols and have the patience to learn the ropes. Instead of requiring users to engage in recursive acts of pooling and staking, Reflax does it all in one transaction. 
+Restaking apps like Convex and Beefy cater to DeFi power users who know how to game protocols and have the patience to learn the ropes. Instead of requiring users to engage in recursive acts of pooling and staking, Reflax does it all in one transaction. 
 
 To illustrate the improvement, let's use an example. Suppose Jerome, holder of USDC, wants to stake in Convex's USDe/USDx boosted pool. Without Reflax, Jerome might do the following
 
@@ -25,7 +25,7 @@ When Jerome wants to unstake, he has to reverse the above process:
 6. Sell USDe for USDC on CRV
 
 
-With Reflax, Jerome simply stakes USDC. Under the hood, the USDc is pooled and staked as per steps 1-3. When he wishes to unstake, he simpy supplies the amount of USDc he wishes to withdraw and Reflax figures out the rest.
+With Reflax, Jerome simply stakes USDC. Under the hood, the USDc is pooled and staked as per steps 1-3. When he wishes to unstake, he simply supplies the amount of USDc he wishes to withdraw and Reflax figures out the rest.
 
 ## How does Flax come in to it?
 In Restaking dapps such as Convex and Beefy, there are usually multiple reward tokens paid out, representing governance tokens at each protocol layer. This can be tedious for a claiming user to sweep up, calculate in a common currency and sell. Reflax converts all of the reward tokens to a common token, Flax, without incurring a price impact in the conversion. 

@@ -13,15 +13,17 @@ import Typography from '@mui/material/Typography';
 
 import { styled } from '@mui/material/styles';
 
-import ForgotPassword from './ForgotPassword';
+import LockAppovalDialogue from './LockApproval';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
-import ConvexICO from "../../images/Convex.png"
+import FlaxToSCXICO from '../../images/FlaxTosFlax.png'
 import USDCICO from "../../images/USDC.png"
 
 import { Tab, Tabs, Tooltip, useMediaQuery, useTheme } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import NumberTextField from '../Commmon/NumberTextField';
 import TransactionButton from '../TransactionButton';
+import DurationSlider from './DurationSlider';
+import { Label } from '@mui/icons-material';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -66,15 +68,32 @@ function TabPanel(props: any) {
 export default function Form() {
   const theme = useTheme();
   const isMediumOrLarger = useMediaQuery(theme.breakpoints.up('md')); // Check if screen is medium or larger
-
+  const [lockDuration, setLockDuration] = useState<number>(3)
   const [emailError, setEmailError] = React.useState(false);
+
+
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
-  const [open, setOpen] = useState(false);
+  const [openLockApproval, setOpenLockApproval] = useState(false);
   const [tabIndex, setTabIndex] = useState<number>(0);
-  const [usdc, setUsdc] = useState<string>("")
+  const [flaxToLock, setFlaxToLock] = useState<string>("")
   const [approved, setApprove] = useState<boolean>(false)
+  const [sFlaxPerDay, setSFlaxPerDay] = useState<number>(0)
+
+  useEffect(() => {
+    const flaxToLock_num = parseFloat(flaxToLock)
+    if (isNaN(flaxToLock_num)) {
+      setSFlaxPerDay(0)
+    }
+    else {
+      setSFlaxPerDay((flaxToLock_num / 1000) * lockDuration)
+    }
+  }, [lockDuration, flaxToLock])
+
+  useEffect(() => {
+    console.log('sFlax per day' + sFlaxPerDay)
+  }, [sFlaxPerDay])
   const approveFunction = () => {
     setTimeout(() => {
       setApprove(true)
@@ -84,20 +103,19 @@ export default function Form() {
 
   const transactionFunction = () => {
     setTimeout(() => {
-      setApprove(true)
-      alert('transaction confirmed')
-    }, 5000)
+      setOpenLockApproval(true)
+    }, 1)
   }
   const handleTabChange = (event: any, newIndex: any) => {
     setTabIndex(newIndex);
   };
 
   const handleClickOpen = () => {
-    setOpen(true);
+    setOpenLockApproval(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenLockApproval(false);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -112,32 +130,6 @@ export default function Form() {
     });
   };
 
-  const validateInputs = () => {
-    const email = document.getElementById('email') as HTMLInputElement;
-    const password = document.getElementById('password') as HTMLInputElement;
-
-    let isValid = true;
-
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true);
-      setEmailErrorMessage('Please enter a valid email address.');
-      isValid = false;
-    } else {
-      setEmailError(false);
-      setEmailErrorMessage('');
-    }
-
-    if (!password.value || password.value.length < 6) {
-      setPasswordError(true);
-      setPasswordErrorMessage('Password must be at least 6 characters long.');
-      isValid = false;
-    } else {
-      setPasswordError(false);
-      setPasswordErrorMessage('');
-    }
-
-    return isValid;
-  };
 
   return (
     <Card variant="outlined">
@@ -150,38 +142,34 @@ export default function Form() {
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography
-            component="h4"
-            variant="h4"
-
-          >
-            USDC
-          </Typography>
-          <img
-            src={USDCICO}
-            alt="USDC Logo"
-            style={{ width: '25px', marginLeft: '10px' }}
-          />
-        </Box>
-        <Tooltip title="USDe/USDx Convex Boosted Curve pool">
-          <Box sx={{ textAlign: 'center' }}>
+          <Box sx={{ display: 'flex', flexDirection: "column", alignItems: 'left' }}>
             <Typography
-              component="p"
-              variant="subtitle2"
-              sx={{ marginBottom: '0.25rem', fontSize:'0.65rem' }}
+              component="h4"
+              variant="h4"
+
             >
-              Powered by
+              Flax Locker
             </Typography>
 
-           <Tooltip title="Convex Finance"> 
-            <img
-              src={ConvexICO}
-              alt="USDC Logo" 
-              style={{ height: '20px' }}
-            />
-            </Tooltip>
+            {isMediumOrLarger && <Typography
+
+              variant="subtitle2">
+              Lock <i>Flax</i>. Earn <i>sFlax</i>. Boost APY on Re<i>Flax</i>
+            </Typography>}
           </Box>
-        </Tooltip>
+
+        </Box>
+
+        <Box sx={{ textAlign: 'right' }}>
+
+          {isMediumOrLarger && <img
+            src={FlaxToSCXICO}
+            alt="FlaxTosFlax"
+            style={{ height: '120px' }}
+          />}
+
+        </Box>
+
       </Box>
 
       <Box sx={{ borderBottom: 1, borderColor: 'divider', marginTop: 2 }}>
@@ -191,12 +179,12 @@ export default function Form() {
           sx={{ width: '100%' }}
         >
           <Tab
-            label="Deposit"
+            label="Lock"
             id="tab-0"
             sx={{ flexGrow: 1, textAlign: 'center' }}
           />
           <Tab
-            label="Withdraw USDC / Claim Flax"
+            label="Claim sFlax / Unlock Flax"
             id="tab-1"
             sx={{ flexGrow: 1, textAlign: 'center' }}
           />
@@ -211,21 +199,27 @@ export default function Form() {
           sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 2 }}
         >
           <NumberTextField
-            label="USDC"
-            id="usdc-field"
+            label="Flax"
+            id="flax-field"
             defaultValue={0}
             maxValue={1000}
-            setValue={setUsdc}
-            value={usdc.toString()}
+            setValue={setFlaxToLock}
+            value={flaxToLock.toString()}
+          />
+          <DurationSlider
+            lockDuration={lockDuration}
+            setLockDuration={setLockDuration}
           />
 
-          <ForgotPassword open={open} handleClose={handleClose} />
+          <Typography color='tertiary' variant="subtitle1">SFlax per day {sFlaxPerDay == 0 ? '-' : sFlaxPerDay.toFixed(2)}</Typography>
+
+          <LockAppovalDialogue sFlaxPerDay={sFlaxPerDay} lockDuration={lockDuration} lockAmount={flaxToLock} open={openLockApproval} handleClose={handleClose} />
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <TransactionButton
               approved={approved}
               approveFunction={approveFunction}
               transactionFunction={transactionFunction}
-              transactionText="deposit"
+              transactionText="lock"
               width={100}
             />
           </Box>
@@ -233,7 +227,7 @@ export default function Form() {
       </TabPanel>
 
       <TabPanel value={tabIndex} index={1}>
-      <Box
+        <Box
           component="form"
           onSubmit={handleSubmit}
           noValidate
@@ -244,24 +238,23 @@ export default function Form() {
             id="usdc-field"
             defaultValue={0}
             maxValue={1000}
-            setValue={setUsdc}
-            value={usdc.toString()}
+            setValue={setFlaxToLock}
+            value={flaxToLock.toString()}
           />
 
-          <ForgotPassword open={open} handleClose={handleClose} />
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <TransactionButton
+            <TransactionButton
               approved={approved}
               transactionFunction={transactionFunction}
-              transactionText="claim"
-              width={80}
+              transactionText="claim sFlax"
+              width={120}
             />
             <TransactionButton
               approved={approved}
               approveFunction={approveFunction}
               transactionFunction={transactionFunction}
-              transactionText="claim + withdraw"
-              width={150}
+              transactionText="unlock Flax"
+              width={130}
             />
           </Box>
         </Box>
