@@ -16,6 +16,7 @@ import ShowChartIcon from '@mui/icons-material/ShowChart';
 import InsightsIcon from '@mui/icons-material/Insights';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 const items = [
   {
     icon: <AccountBalanceIcon sx={{ color: 'text.secondary' }} />,
@@ -37,7 +38,7 @@ const items = [
       '205',
   },
   {
-    icon: <Assesment sx={{ color: 'text.secondary' }} />,
+    icon: <AccessTimeIcon sx={{ color: 'text.secondary' }} />,
     title: 'Time remaining to unlock',
     description:
       '900 days',

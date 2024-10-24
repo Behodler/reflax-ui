@@ -233,14 +233,6 @@ export default function Form() {
           noValidate
           sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 2 }}
         >
-          <NumberTextField
-            label="USDC"
-            id="usdc-field"
-            defaultValue={0}
-            maxValue={1000}
-            setValue={setFlaxToLock}
-            value={flaxToLock.toString()}
-          />
 
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <TransactionButton
