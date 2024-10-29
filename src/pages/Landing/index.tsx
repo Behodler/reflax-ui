@@ -2,6 +2,7 @@ import { Divider, Stack, useMediaQuery, useTheme } from "@mui/material";
 import SignInSide from "../../components/sign-in-side/SignInSide";
 import Vault from "../../components/vault/Vault"
 import Locker from "../../components/locker/Locker";
+import backgroundImage from "../../images/background.png"
 export default function Landing() {
     const theme = useTheme();
     const isMediumOrLarger = useMediaQuery(theme.breakpoints.up('md')); // Check if screen is medium or larger
@@ -26,12 +27,13 @@ export default function Landing() {
                     left: 0,
                     right: 0,
                     bottom: 0, // Stretch background to the full height of the container
-                    backgroundRepeat: 'repeat-y',
-                    ...theme.applyStyles('dark', {
-                        backgroundImage:
-                            'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
-                        backgroundRepeat: 'repeat-y',
-                    }),
+                    backgroundSize: 'cover',
+
+                    // backgroundImage: 'radial-gradient(at 50% 50%, rgba(32, 64, 128, 0.5), rgb(15, 15, 15))'
+                    backgroundImage: `url(${backgroundImage})`
+
+
+
                 },
             }),
         ]}

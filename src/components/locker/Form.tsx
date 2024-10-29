@@ -32,15 +32,14 @@ const Card = styled(MuiCard)(({ theme }) => ({
   width: '100%',
   padding: theme.spacing(4),
   gap: theme.spacing(2),
-  boxShadow:
-    'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
+
   [theme.breakpoints.up('sm')]: {
     width: '450px',
   },
-  ...theme.applyStyles('dark', {
-    boxShadow:
-      'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
-  }),
+ 
+    // boxShadow:
+    //   'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
+
 }));
 
 
@@ -83,6 +82,7 @@ export default function Form() {
 
   useEffect(() => {
     const flaxToLock_num = parseFloat(flaxToLock)
+    
     if (isNaN(flaxToLock_num)) {
       setSFlaxPerDay(0)
     }
@@ -119,15 +119,8 @@ export default function Form() {
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
-      return;
-    }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+   event.preventDefault()
+    
   };
 
 
@@ -201,8 +194,9 @@ export default function Form() {
           <NumberTextField
             label="Flax"
             id="flax-field"
+            tokenName='flax'
             defaultValue={0}
-            maxValue={1000}
+            maxValue={200000}
             setValue={setFlaxToLock}
             value={flaxToLock.toString()}
           />

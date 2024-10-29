@@ -7,6 +7,7 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import '@fontsource/inter'; // Defaults to 400 weight
 
 
 import '@rainbow-me/rainbowkit/styles.css';
@@ -24,11 +25,18 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 
+
+declare module 'wagmi' {
+  interface Register {
+    config: typeof config
+  }
+}
+
 const config = getDefaultConfig({
   appName: 'reflax',
   projectId: '8f55de3e0eed45533e355c44c52a8e12',
   chains: [arbitrum, anvil],
-  ssr: true, // If your dApp uses server side rendering (SSR)
+  ssr: false,
 });
 
 

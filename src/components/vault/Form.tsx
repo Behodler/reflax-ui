@@ -18,7 +18,7 @@ import { GoogleIcon, FacebookIcon, SitemarkIcon } from './CustomIcons';
 import ConvexICO from "../../images/Convex.png"
 import USDCICO from "../../images/USDC.png"
 
-import { Tab, Tabs, Tooltip, useMediaQuery, useTheme } from '@mui/material';
+import { Stack, Tab, Tabs, Tooltip, useMediaQuery, useTheme } from '@mui/material';
 import { useState } from 'react';
 import NumberTextField from '../Commmon/NumberTextField';
 import TransactionButton from '../TransactionButton';
@@ -101,15 +101,9 @@ export default function Form() {
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
-      return;
-    }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+    event.preventDefault();
+
   };
 
   const validateInputs = () => {
@@ -164,23 +158,67 @@ export default function Form() {
           />
         </Box>
         <Tooltip title="USDe/USDx Convex Boosted Curve pool">
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography
-              component="p"
-              variant="subtitle2"
-              sx={{ marginBottom: '0.25rem', fontSize:'0.65rem' }}
+          <Stack direction="row" spacing={1} alignItems="center">
+            {/* Left Column with Image */}
+            <Box
+              sx={{
+                height: '50px', // Adjust height as needed
+                display: 'flex',
+                alignItems: 'center',
+                // border: '1px solid red'
+              }}
             >
-              Powered by
-            </Typography>
+              <img
+                src={ConvexICO}
+                alt="Convex Logo"
+                style={{ height: '25px', display: 'block', marginTop: 0 }}
+              />
+            </Box>
 
-           <Tooltip title="Convex Finance"> 
-            <img
-              src={ConvexICO}
-              alt="USDC Logo" 
-              style={{ height: '20px' }}
-            />
-            </Tooltip>
-          </Box>
+            {/* Right Column */}
+            <Stack spacing={0} sx={{ width: '100%' }}>
+              {/* Top Right Cell */}
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  // border: '1px solid red',
+                  height: '20px' // Adjust height to match the overall layout
+                }}
+              >
+                {isMediumOrLarger && <Typography
+                  component="p"
+                  variant="subtitle2"
+                  sx={{ fontSize: '0.65rem', marginBottom: '0.25rem' }}
+                >
+                  Powered by
+                </Typography>}
+              </Box>
+
+              {/* Bottom Right Cell */}
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  // border: '1px solid red',
+                  height: '20px' // Same height to ensure rows are equal
+                }}
+              >
+                {isMediumOrLarger &&
+                  <Typography
+                    component="p"
+                    variant="subtitle2"
+                    sx={{ fontSize: '0.65rem', marginBottom: '0.25rem' }}
+                  >
+                    Convex finance
+                  </Typography>}
+              </Box>
+            </Stack>
+          </Stack>
+
+
         </Tooltip>
       </Box>
 
@@ -213,6 +251,7 @@ export default function Form() {
           <NumberTextField
             label="USDC"
             id="usdc-field"
+            tokenName='usdc'
             defaultValue={0}
             maxValue={1000}
             setValue={setUsdc}
@@ -233,7 +272,7 @@ export default function Form() {
       </TabPanel>
 
       <TabPanel value={tabIndex} index={1}>
-      <Box
+        <Box
           component="form"
           onSubmit={handleSubmit}
           noValidate
@@ -242,6 +281,7 @@ export default function Form() {
           <NumberTextField
             label="USDC"
             id="usdc-field"
+            tokenName='usdc'
             defaultValue={0}
             maxValue={1000}
             setValue={setUsdc}
@@ -250,7 +290,7 @@ export default function Form() {
 
           <ForgotPassword open={open} handleClose={handleClose} />
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <TransactionButton
+            <TransactionButton
               approved={approved}
               transactionFunction={transactionFunction}
               transactionText="claim"

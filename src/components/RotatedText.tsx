@@ -10,7 +10,7 @@ export default function RotatedText(props: { text: string }) {
           alignItems: 'center', 
           justifyContent: 'center', 
           width: '15vh',
-          height: '60vh' // Set height to help with centering after rotation
+          height: '600px', // Set height to help with centering after rotation
         }}
       >
         <Typography

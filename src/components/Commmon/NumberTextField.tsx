@@ -8,19 +8,20 @@ interface NumberTextFieldProps {
     defaultValue: number
     value: string
     setValue: (v: string) => void
+    tokenName:string
 }
 
-function errorMessage(value: number, maxValue: number): string {
+function errorMessage(value: number, maxValue: number, tokenName:string): string {
     if (isNaN(value))
         return "Invalid Number"
     if (value < 0)
         return "Non-negative numbers only"
     if (value > maxValue)
-        return "Exceeds Maximum USDC"
+        return `Exceeds Maximum ${tokenName}`
     return ""
 }
 
-export default function NumberTextField({ label, id, maxValue, defaultValue, value, setValue }: NumberTextFieldProps) {
+export default function NumberTextField({ label, id, maxValue, defaultValue, value, setValue, tokenName }: NumberTextFieldProps) {
     const [inputError, setInputError] = useState(false);
     const [inputErrorMessage, setInputErrorMessage] = useState('');
     id = id || label;
@@ -30,7 +31,7 @@ export default function NumberTextField({ label, id, maxValue, defaultValue, val
     };
     useEffect(() => {
         const val_num = value.trim() === "" ? 0 : parseFloat(value.trim())
-        const message = errorMessage(val_num, maxValue)
+        const message = errorMessage(val_num, maxValue,tokenName)
         setInputError(message !== "")
         setInputErrorMessage(message)
     }, [value])
@@ -43,7 +44,7 @@ export default function NumberTextField({ label, id, maxValue, defaultValue, val
                 helperText={inputErrorMessage}
                 id={id}
                 type="number"
-                name="usdcAmount"
+                name={`${tokenName}Amount`}
                 placeholder={defaultValue.toFixed(2)}
                 required
                 value={value}

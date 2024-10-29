@@ -16,7 +16,40 @@ import ShowChartIcon from '@mui/icons-material/ShowChart';
 import InsightsIcon from '@mui/icons-material/Insights';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
-const items = [
+import { Divider } from '@mui/material';
+
+interface LineItem {
+  icon: any,
+  title: string,
+  description: string,
+  textColor?: string,
+  divider?: boolean
+  important?: boolean
+}
+
+const items: LineItem[] = [
+  {
+    icon: <ShowChartIcon sx={{ color: 'text.secondary' }} />,
+    title: 'Base APY',
+    description:
+      '17%',
+    important: true
+  },
+  {
+    icon: <InsightsIcon sx={{ color: 'text.secondary' }} />,
+    title: 'Boost',
+    description:
+      '1% per 10000 sFlax',
+    important: true
+  },
+  {
+    icon: <RocketLaunchIcon sx={{ color: 'text.secondary' }} />,
+    title: 'Your effective APY',
+    description:
+      '23%',
+    important: true,
+    divider: true
+  },
   {
     icon: <AccountBalanceIcon sx={{ color: 'text.secondary' }} />,
     title: 'Total Deposits',
@@ -47,25 +80,7 @@ const items = [
     description:
       '40%',
   },
-  {
-    icon: <ShowChartIcon sx={{ color: 'text.secondary' }} />,
-    title: 'Base APY',
-    description:
-      '17%',
-  },
-  {
-    icon: <InsightsIcon sx={{ color: 'text.secondary' }} />,
-    title: 'Boost',
-    description:
-      '1% per 10000 sFlax',
-  },
-  {
-    icon: <RocketLaunchIcon sx={{ color: 'text.secondary' }} />,
-    title: 'Your current effective APY',
-    description:
-      '23%',
-    textColor: 'lightgreen'
-  },
+
 
 ];
 
@@ -79,17 +94,36 @@ export default function Stats() {
       }}
     >
       {items.map((item, index) => (
-        <Stack key={index} direction="row" sx={{ gap: 2 }}>
-          {item.icon}
-          <div>
-            <Typography gutterBottom sx={{ fontWeight: 'medium' }}>
-              {item.title}
-            </Typography>
-            <Typography variant="body2" sx={{ color: item.textColor ? item.textColor : 'text.secondary' }}>
-              {item.description}
-            </Typography>
-          </div>
-        </Stack>
+        <>
+          <Stack key={index} direction="row" sx={{ gap: 2 }}>
+            {item.icon}
+            <div>
+              <Typography
+                sx={item.important ? {
+                  background: 'linear-gradient(120deg, #FC18FF, #1640E4 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  color: 'transparent',
+                  fontWeight: 'medium'
+                } : { fontWeight: 'medium' }}
+                variant={item.important ? "h5" : "body1"} gutterBottom >
+                {item.title}
+              </Typography>
+              <Typography variant={item.important ? "h6" : "body2"} sx={{ color: item.textColor ? item.textColor : 'text.secondary' }}>
+                {item.description}
+              </Typography>
+            </div>
+
+          </Stack>
+          {item.divider && <Divider
+            sx={{
+              height: 4,    // thickness for horizontal divider
+              backgroundColor: '#FFF',  // optional, to set color
+            }}
+          />
+          }
+        </>
       ))}
     </Stack>
   );

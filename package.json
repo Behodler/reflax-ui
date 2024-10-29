@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@fontsource/inter": "^5.1.0",
     "@fontsource/roboto": "^5.1.0",
     "@mui/icons-material": "^6.1.4",
     "@mui/material": "^6.1.4",
@@ -17,20 +18,22 @@
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "@wagmi/cli": "^2.1.16",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0",
     "react-scripts": "5.0.1",
-    "typescript": "^4.4.2",
+    "typescript": "^5.0.4",
     "viem": "2.x",
-    "wagmi": "^2.12.20",
+    "wagmi": "^2.12.25",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "aws:sync": "aws s3 sync build/ s3://horse.behodler.io --delete"
   },
   "eslintConfig": {
     "extends": [
