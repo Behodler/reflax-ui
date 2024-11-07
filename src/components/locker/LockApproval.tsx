@@ -40,14 +40,17 @@ export default function LockAppovalDialogue({ open, handleClose, sFlaxPerDay, lo
           event.preventDefault();
           handleClose();
         },
-        sx: { backgroundImage: 'none' },
+        sx: { backgroundImage: 'none',
+          backgroundColor: '#212233'
+         },
       }}
     >
       <DialogTitle>Review Lock Amount and Duration</DialogTitle>
       <DialogContent
-        sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}
+        sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' 
+        }}
       >
-        <DialogContentText sx={{ color: 'yellow' }}>
+        <DialogContentText sx={{ color: '#FFE4B5' }}>
           You have selected to lock {lockAmount} Flax for {lockDuration} months, earning {sFlaxPerDay} sFlax per day. Please make sure these values are correct.
           Once Flax is locked, it cannot be unlocked until the duration is over.
         </DialogContentText>

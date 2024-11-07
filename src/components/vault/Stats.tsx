@@ -90,7 +90,7 @@ export default function Stats() {
       sx={{
         border: '1px solid rgba(200,200,200,0.4)',
         padding: '20px', flexDirection: 'column',
-        alignSelf: 'center', gap: 1, maxWidth: 450
+        alignSelf: 'center', gap: 1, width:"300px"
       }}
     >
       {items.map((item, index) => (
@@ -104,10 +104,10 @@ export default function Stats() {
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
-                  color: 'transparent',
+                 color: 'transparent',
                   fontWeight: 'medium'
-                } : { fontWeight: 'medium' }}
-                variant={item.important ? "h5" : "body1"} gutterBottom >
+                } : { fontWeight: 'medium', color:"white" }}
+                variant={item.important ? "h6" : "body2"} gutterBottom >
                 {item.title}
               </Typography>
               <Typography variant={item.important ? "h6" : "body2"} sx={{ color: item.textColor ? item.textColor : 'text.secondary' }}>

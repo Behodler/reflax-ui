@@ -5,11 +5,12 @@ export default function RotatedText(props: { text: string }) {
     return (
         <Box 
         sx={{
+          color:'white',
           margin: 0, 
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'center', 
-          width: '15vh',
+          width: '200px',
           height: '600px', // Set height to help with centering after rotation
         }}
       >

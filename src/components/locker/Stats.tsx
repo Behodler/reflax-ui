@@ -52,14 +52,14 @@ export default function Stats() {
       sx={{
         border: '1px solid rgba(200,200,200,0.4)',
         padding: '20px', flexDirection: 'column',
-        alignSelf: 'center', gap: 1, maxWidth: 450
+        alignSelf: 'center', gap: 1, width:"300px"
       }}
     >
       {items.map((item, index) => (
         <Stack key={index} direction="row" sx={{ gap: 2 }}>
           {item.icon}
           <div>
-            <Typography gutterBottom sx={{ fontWeight: 'medium' }}>
+            <Typography gutterBottom sx={{ fontWeight: 'medium', color:"white" }}>
               {item.title}
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>

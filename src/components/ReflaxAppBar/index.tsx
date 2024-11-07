@@ -24,36 +24,10 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 export default function ReflaxAppBar() {
 
-  // const ImageBalanceHeader = (props: { image: any, name: string, balance: string, unclaimed?: string }) => {
-  //   // Use Material UI's breakpoint to check screen size
-  //   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
-
-  //   const displayText = `${props.name}: ${props.balance} ${props.unclaimed ? "(unclaimed: " + props.unclaimed + ")" : ""}`;
-
-  //   return (
-  //     <Box sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
-  //       {isSmallScreen ? (
-  //         // On small screens, show only the image and wrap in a Tooltip
-  //         <Tooltip title={displayText}>
-  //           <img src={props.image} width={20} alt={props.name} />
-  //         </Tooltip>
-  //       ) : (
-  //         // On larger screens, show the full info
-  //         <>
-  //           <img src={props.image} width={20} alt={props.name} />
-  //           <Typography variant="body1" sx={{ ml: 2 }}>
-  //             {displayText}
-  //           </Typography>
-  //         </>
-  //       )}
-  //     </Box>
-  //   );
-  // }
-
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar position="static" >
+        <Toolbar sx={{ backgroundColor: '#212233' }}>
           {/* Left-aligned Box for Logo and Name */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
 

@@ -12,7 +12,7 @@ interface ForgotPasswordProps {
   handleClose: () => void;
 }
 
-export default function ForgotPassword({ open, handleClose }: ForgotPasswordProps) {
+export default function ConfirmDialog({ open, handleClose }: ForgotPasswordProps) {
   return (
     <Dialog
       open={open}
@@ -23,12 +23,17 @@ export default function ForgotPassword({ open, handleClose }: ForgotPasswordProp
           event.preventDefault();
           handleClose();
         },
-        sx: { backgroundImage: 'none' },
+        sx: {
+          backgroundImage: 'none',
+         
+        },
       }}
     >
       <DialogTitle>Reset password</DialogTitle>
       <DialogContent
-        sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}
+        sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%',
+
+         }}
       >
         <DialogContentText>
           Enter your account&apos;s email address, and we&apos;ll send you a link to

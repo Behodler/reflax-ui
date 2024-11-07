@@ -23,6 +23,7 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0",
     "react-scripts": "5.0.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.0.4",
     "viem": "2.x",
     "wagmi": "^2.12.25",
@@ -33,7 +34,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "aws:sync": "aws s3 sync build/ s3://horse.behodler.io --delete"
+    "aws:sync": "aws s3 sync build/ s3://horse.behodler.io --delete",
+    "ts-node":"node_modules/.bin/ts-node"
   },
   "eslintConfig": {
     "extends": [
