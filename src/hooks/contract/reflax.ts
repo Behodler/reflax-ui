@@ -12,6 +12,13 @@ import {
 export const aVaultAbi = [
   {
     type: 'function',
+    inputs: [{ name: 'holder', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     inputs: [],
     name: 'config',
     outputs: [
@@ -24,6 +31,16 @@ export const aVaultAbi = [
         type: 'address',
       },
       { name: 'booster', internalType: 'contract IBooster', type: 'address' },
+      {
+        name: 'teraVirtualInputPerSecond',
+        internalType: 'uint256',
+        type: 'uint256',
+      },
+      {
+        name: 'oracle',
+        internalType: 'contract StandardOracle',
+        type: 'address',
+      },
     ],
     stateMutability: 'view',
   },
@@ -57,10 +74,26 @@ export const aVaultAbi = [
       { name: 'sFlaxAddress', internalType: 'string', type: 'string' },
       { name: 'yieldAddress', internalType: 'string', type: 'string' },
       { name: 'boosterAddress', internalType: 'string', type: 'string' },
+      { name: 'TVIPS', internalType: 'uint256', type: 'uint256' },
+      { name: 'oracleAddress', internalType: 'string', type: 'string' },
     ],
     name: 'setConfig',
     outputs: [],
     stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'val', internalType: 'uint256', type: 'uint256' }],
+    name: 'setUpTo',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
     type: 'function',
@@ -94,6 +127,31 @@ export const aVaultAbi = [
       },
     ],
     name: 'OwnershipTransferred',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'staker',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'inputTokenAmount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'feeBasisPoints',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'inputDeposit',
   },
   {
     type: 'error',
@@ -490,7 +548,7 @@ export const sFlaxAbi = [
 export const standardOracleAbi = [
   {
     type: 'constructor',
-    inputs: [{ name: 'V2factory', internalType: 'address', type: 'address' }],
+    inputs: [{ name: 'V2Router', internalType: 'address', type: 'address' }],
     stateMutability: 'nonpayable',
   },
   {
@@ -502,6 +560,13 @@ export const standardOracleAbi = [
     name: 'RegisterPair',
     outputs: [],
     stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'WETH',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
     type: 'function',
@@ -727,6 +792,13 @@ export const usdcV1Abi = [
   },
   {
     type: 'function',
+    inputs: [{ name: 'holder', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     inputs: [{ name: 'recipient', internalType: 'address', type: 'address' }],
     name: 'claim',
     outputs: [],
@@ -746,6 +818,16 @@ export const usdcV1Abi = [
         type: 'address',
       },
       { name: 'booster', internalType: 'contract IBooster', type: 'address' },
+      {
+        name: 'teraVirtualInputPerSecond',
+        internalType: 'uint256',
+        type: 'uint256',
+      },
+      {
+        name: 'oracle',
+        internalType: 'contract StandardOracle',
+        type: 'address',
+      },
     ],
     stateMutability: 'view',
   },
@@ -779,6 +861,8 @@ export const usdcV1Abi = [
       { name: 'sFlaxAddress', internalType: 'string', type: 'string' },
       { name: 'yieldAddress', internalType: 'string', type: 'string' },
       { name: 'boosterAddress', internalType: 'string', type: 'string' },
+      { name: 'TVIPS', internalType: 'uint256', type: 'uint256' },
+      { name: 'oracleAddress', internalType: 'string', type: 'string' },
     ],
     name: 'setConfig',
     outputs: [],
@@ -793,10 +877,24 @@ export const usdcV1Abi = [
   },
   {
     type: 'function',
+    inputs: [{ name: 'val', internalType: 'uint256', type: 'uint256' }],
+    name: 'setUpTo',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
     inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
     name: 'stake',
     outputs: [],
     stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
     type: 'function',
@@ -843,6 +941,31 @@ export const usdcV1Abi = [
     name: 'OwnershipTransferred',
   },
   {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'staker',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'inputTokenAmount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'feeBasisPoints',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'inputDeposit',
+  },
+  {
     type: 'error',
     inputs: [{ name: 'reason', internalType: 'string', type: 'string' }],
     name: 'DepositProhibited',
@@ -879,7 +1002,6 @@ export const usDeUsDxYsAbi = [
     inputs: [],
     name: 'advanceYield',
     outputs: [
-      { name: 'flaxValueOfTilt', internalType: 'uint256', type: 'uint256' },
       {
         name: 'currentDepositBalance',
         internalType: 'uint256',
@@ -916,7 +1038,10 @@ export const usDeUsDxYsAbi = [
       { name: 'staker', internalType: 'address', type: 'address' },
     ],
     name: 'deposit',
-    outputs: [],
+    outputs: [
+      { name: 'depositFee', internalType: 'uint256', type: 'uint256' },
+      { name: 'protocolUnits', internalType: 'uint256', type: 'uint256' },
+    ],
     stateMutability: 'nonpayable',
   },
   {
@@ -931,10 +1056,15 @@ export const usDeUsDxYsAbi = [
     inputs: [
       { name: 'recipient', internalType: 'address', type: 'address' },
       { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      {
+        name: 'protocolUnitsToWithdraw',
+        internalType: 'uint256',
+        type: 'uint256',
+      },
       { name: 'allowImpermanentLoss', internalType: 'bool', type: 'bool' },
     ],
     name: 'releaseInput',
-    outputs: [],
+    outputs: [{ name: 'fee', internalType: 'int256', type: 'int256' }],
     stateMutability: 'nonpayable',
   },
   {
@@ -975,6 +1105,13 @@ export const usDeUsDxYsAbi = [
     type: 'function',
     inputs: [{ name: 'booster', internalType: 'address', type: 'address' }],
     name: 'setConvex',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '_upTo', internalType: 'uint256', type: 'uint256' }],
+    name: 'setUpTo',
     outputs: [],
     stateMutability: 'nonpayable',
   },
@@ -1048,6 +1185,25 @@ export const usDeUsDxYsAbi = [
       },
     ],
     name: 'actualVsDesiredUSDC',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'tilt',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'reward',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'flaxValueOfPriceTilt',
   },
   {
     type: 'event',
@@ -1129,6 +1285,14 @@ export const useReadAVault = /*#__PURE__*/ createUseReadContract({
 })
 
 /**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aVaultAbi}__ and `functionName` set to `"balanceOf"`
+ */
+export const useReadAVaultBalanceOf = /*#__PURE__*/ createUseReadContract({
+  abi: aVaultAbi,
+  functionName: 'balanceOf',
+})
+
+/**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link aVaultAbi}__ and `functionName` set to `"config"`
  */
 export const useReadAVaultConfig = /*#__PURE__*/ createUseReadContract({
@@ -1142,6 +1306,14 @@ export const useReadAVaultConfig = /*#__PURE__*/ createUseReadContract({
 export const useReadAVaultOwner = /*#__PURE__*/ createUseReadContract({
   abi: aVaultAbi,
   functionName: 'owner',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link aVaultAbi}__ and `functionName` set to `"totalSupply"`
+ */
+export const useReadAVaultTotalSupply = /*#__PURE__*/ createUseReadContract({
+  abi: aVaultAbi,
+  functionName: 'totalSupply',
 })
 
 /**
@@ -1175,6 +1347,14 @@ export const useWriteAVaultRenounceOwnership =
 export const useWriteAVaultSetConfig = /*#__PURE__*/ createUseWriteContract({
   abi: aVaultAbi,
   functionName: 'setConfig',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aVaultAbi}__ and `functionName` set to `"setUpTo"`
+ */
+export const useWriteAVaultSetUpTo = /*#__PURE__*/ createUseWriteContract({
+  abi: aVaultAbi,
+  functionName: 'setUpTo',
 })
 
 /**
@@ -1230,6 +1410,13 @@ export const useSimulateAVaultSetConfig =
   })
 
 /**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aVaultAbi}__ and `functionName` set to `"setUpTo"`
+ */
+export const useSimulateAVaultSetUpTo = /*#__PURE__*/ createUseSimulateContract(
+  { abi: aVaultAbi, functionName: 'setUpTo' },
+)
+
+/**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aVaultAbi}__ and `functionName` set to `"transferOwnership"`
  */
 export const useSimulateAVaultTransferOwnership =
@@ -1261,6 +1448,15 @@ export const useWatchAVaultOwnershipTransferredEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: aVaultAbi,
     eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link aVaultAbi}__ and `eventName` set to `"inputDeposit"`
+ */
+export const useWatchAVaultInputDepositEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: aVaultAbi,
+    eventName: 'inputDeposit',
   })
 
 /**
@@ -1691,6 +1887,14 @@ export const useReadStandardOracle = /*#__PURE__*/ createUseReadContract({
 })
 
 /**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link standardOracleAbi}__ and `functionName` set to `"WETH"`
+ */
+export const useReadStandardOracleWeth = /*#__PURE__*/ createUseReadContract({
+  abi: standardOracleAbi,
+  functionName: 'WETH',
+})
+
+/**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link standardOracleAbi}__ and `functionName` set to `"consult"`
  */
 export const useReadStandardOracleConsult = /*#__PURE__*/ createUseReadContract(
@@ -1881,6 +2085,14 @@ export const useReadUsdcV1 = /*#__PURE__*/ createUseReadContract({
 })
 
 /**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdcV1Abi}__ and `functionName` set to `"balanceOf"`
+ */
+export const useReadUsdcV1BalanceOf = /*#__PURE__*/ createUseReadContract({
+  abi: usdcV1Abi,
+  functionName: 'balanceOf',
+})
+
+/**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdcV1Abi}__ and `functionName` set to `"config"`
  */
 export const useReadUsdcV1Config = /*#__PURE__*/ createUseReadContract({
@@ -1894,6 +2106,14 @@ export const useReadUsdcV1Config = /*#__PURE__*/ createUseReadContract({
 export const useReadUsdcV1Owner = /*#__PURE__*/ createUseReadContract({
   abi: usdcV1Abi,
   functionName: 'owner',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdcV1Abi}__ and `functionName` set to `"totalSupply"`
+ */
+export const useReadUsdcV1TotalSupply = /*#__PURE__*/ createUseReadContract({
+  abi: usdcV1Abi,
+  functionName: 'totalSupply',
 })
 
 /**
@@ -1943,6 +2163,14 @@ export const useWriteUsdcV1SetConfig = /*#__PURE__*/ createUseWriteContract({
 export const useWriteUsdcV1SetMaxStake = /*#__PURE__*/ createUseWriteContract({
   abi: usdcV1Abi,
   functionName: 'setMaxStake',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdcV1Abi}__ and `functionName` set to `"setUpTo"`
+ */
+export const useWriteUsdcV1SetUpTo = /*#__PURE__*/ createUseWriteContract({
+  abi: usdcV1Abi,
+  functionName: 'setUpTo',
 })
 
 /**
@@ -2031,6 +2259,13 @@ export const useSimulateUsdcV1SetMaxStake =
   })
 
 /**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdcV1Abi}__ and `functionName` set to `"setUpTo"`
+ */
+export const useSimulateUsdcV1SetUpTo = /*#__PURE__*/ createUseSimulateContract(
+  { abi: usdcV1Abi, functionName: 'setUpTo' },
+)
+
+/**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdcV1Abi}__ and `functionName` set to `"stake"`
  */
 export const useSimulateUsdcV1Stake = /*#__PURE__*/ createUseSimulateContract({
@@ -2079,6 +2314,15 @@ export const useWatchUsdcV1OwnershipTransferredEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: usdcV1Abi,
     eventName: 'OwnershipTransferred',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usdcV1Abi}__ and `eventName` set to `"inputDeposit"`
+ */
+export const useWatchUsdcV1InputDepositEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: usdcV1Abi,
+    eventName: 'inputDeposit',
   })
 
 /**
@@ -2194,6 +2438,14 @@ export const useWriteUsDeUsDxYsSetConvex = /*#__PURE__*/ createUseWriteContract(
 )
 
 /**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usDeUsDxYsAbi}__ and `functionName` set to `"setUpTo"`
+ */
+export const useWriteUsDeUsDxYsSetUpTo = /*#__PURE__*/ createUseWriteContract({
+  abi: usDeUsDxYsAbi,
+  functionName: 'setUpTo',
+})
+
+/**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usDeUsDxYsAbi}__ and `functionName` set to `"transferOwnership"`
  */
 export const useWriteUsDeUsDxYsTransferOwnership =
@@ -2291,6 +2543,15 @@ export const useSimulateUsDeUsDxYsSetConvex =
   })
 
 /**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usDeUsDxYsAbi}__ and `functionName` set to `"setUpTo"`
+ */
+export const useSimulateUsDeUsDxYsSetUpTo =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usDeUsDxYsAbi,
+    functionName: 'setUpTo',
+  })
+
+/**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usDeUsDxYsAbi}__ and `functionName` set to `"transferOwnership"`
  */
 export const useSimulateUsDeUsDxYsTransferOwnership =
@@ -2330,6 +2591,15 @@ export const useWatchUsDeUsDxYsActualVsDesiredUsdcEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: usDeUsDxYsAbi,
     eventName: 'actualVsDesiredUSDC',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link usDeUsDxYsAbi}__ and `eventName` set to `"flaxValueOfPriceTilt"`
+ */
+export const useWatchUsDeUsDxYsFlaxValueOfPriceTiltEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: usDeUsDxYsAbi,
+    eventName: 'flaxValueOfPriceTilt',
   })
 
 /**
