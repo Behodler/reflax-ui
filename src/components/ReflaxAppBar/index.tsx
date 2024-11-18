@@ -23,7 +23,7 @@ const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 export default function ReflaxAppBar() {
-
+  
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" >

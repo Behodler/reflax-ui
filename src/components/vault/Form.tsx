@@ -22,6 +22,7 @@ import { Stack, Tab, Tabs, Tooltip, useMediaQuery, useTheme } from '@mui/materia
 import { useState } from 'react';
 import NumberTextField from '../Commmon/NumberTextField';
 import TransactionButton from '../TransactionButton';
+import { useWriteIsFlax } from '../../hooks/contract/reflax';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',

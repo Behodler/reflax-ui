@@ -15,10 +15,12 @@
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
     "@types/jest": "^27.0.1",
+    "@types/lodash": "^4.17.13",
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@wagmi/cli": "^2.1.16",
+    "lodash": "^4.17.21",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0",
@@ -35,7 +37,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "aws:sync": "aws s3 sync build/ s3://horse.behodler.io --delete",
-    "ts-node":"node_modules/.bin/ts-node"
+    "ts-node": "node_modules/.bin/ts-node"
   },
   "eslintConfig": {
     "extends": [
