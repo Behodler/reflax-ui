@@ -8,19 +8,22 @@ import ReflaxAppBar from "./components/ReflaxAppBar";
 import AppTheme from "./components/shared-theme/AppTheme";
 import { CssBaseline } from "@mui/material";
 import Landing from "./pages/Landing";
+import { BlockchainContextProvider } from "./contexts/BlockchainContextProvider";
 
 export default function App() {
   return (
     <AppTheme >
+
       <CssBaseline enableColorScheme />
-      <ReflaxAppBar />
+      <BlockchainContextProvider>
+        <ReflaxAppBar />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Landing />} />
 
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-
-        </Routes>
-      </BrowserRouter>
-    </AppTheme> 
+          </Routes>
+        </BrowserRouter>
+      </BlockchainContextProvider>
+    </AppTheme>
   );
 }

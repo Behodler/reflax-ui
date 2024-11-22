@@ -1,15 +1,25 @@
 import { useState, useEffect, useDeferredValue } from 'react';
-import { ContractAddresses,defaultContractAddresses } from '../types/ContractAddreses';
+import { ConstractAddresses_nullable, ContractAddresses_unsettable, defaultContractAddresses_nullable, defaultContractAddresses_unsettable, unsettableAddress } from '../types/ContractAddreses';
 import { ChainId } from '../types/ChainId';
 import _ from 'lodash'
 
+const sanitizeAddress = (address: unsettableAddress): `0x${string}` | undefined => {
+    if (address == 'UNSET')
+        return undefined
+    return address
+}
+
 export const useAddresses = (chainId: ChainId | undefined) => {
-    const [addresses, setAddresses] = useState<ContractAddresses>(defaultContractAddresses)
+    const [addresses, setAddresses] = useState<ContractAddresses_unsettable>(defaultContractAddresses_unsettable)
     const deferredChainId = useDeferredValue(chainId)
     const deferredAddresses = useDeferredValue(addresses)
+    const [addresses_nullable, setAddresses_nullable] = useState<ConstractAddresses_nullable>(defaultContractAddresses_nullable)
+
 
     useEffect(() => {
+        console.log('chain id changed')
         if (deferredChainId) {
+
             if (deferredChainId == ChainId.anvil) {
                 (async () => {
 
@@ -17,7 +27,7 @@ export const useAddresses = (chainId: ChainId | undefined) => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
-                    const data: ContractAddresses = await response.json();
+                    const data: ContractAddresses_unsettable = await response.json();
                     if (!_.isEqual(data, addresses)) {
                         setAddresses(data)
                     }
@@ -30,6 +40,7 @@ export const useAddresses = (chainId: ChainId | undefined) => {
                     USDx: '0xb2F30A7C980f052f02563fb518dcc39e6bf38175',
                     Flax: 'UNSET',
                     SFlax: 'UNSET',
+                    FlaxLocker: 'UNSET',
                     USDe_USDx_crv: 'UNSET',
                     USDC_USDe_crv: 'UNSET',
                     convexPool: '0xe062e302091f44d7483d9D6e0Da9881a0817E2be',
@@ -47,13 +58,24 @@ export const useAddresses = (chainId: ChainId | undefined) => {
 
 
     useEffect(() => {
-        if (addresses) {
-            const unsetAddresses = Object.keys(addresses).filter((addressKey:string) => (addresses as any)[addressKey] == 'UNSET')
-            if (unsetAddresses.length > 0) {
-                console.warn('The following addresses have not been set for this chain ' + JSON.stringify(Object.keys(unsetAddresses), null, 4))
+        if (deferredChainId) {
+            const unsetAddresses = Object.keys(deferredAddresses).filter((addressKey: string) => (addresses as any)[addressKey] == 'UNSET')
+            if (!_.isEqual(deferredAddresses, defaultContractAddresses_unsettable) && unsetAddresses.length > 0) {
+                console.warn('The following addresses have not been set for this chain ' + JSON.stringify(unsetAddresses, null, 4))
+            }
+            else {
+                console.log('All addresses loaded')
+                let nullable = { ...addresses } as ConstractAddresses_nullable
+
+                Object.keys(addresses)
+                    .forEach((key: string) => {
+                        const value = (addresses as any)[key] as string
+
+                        (nullable as any)[key] = value == 'UNSET' ? undefined : value;
+                    })
+                setAddresses_nullable(nullable)
             }
         }
-
-    }, [deferredAddresses])
-    return addresses
+    }, [deferredAddresses, deferredChainId])
+    return useDeferredValue(addresses_nullable)
 }

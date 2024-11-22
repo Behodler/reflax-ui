@@ -19,11 +19,13 @@ import sFlaxICO from '../../images/sFlaxBig.png'
 import USDC from '../../images/USDC.png'
 import { Theme, useMediaQuery } from '@mui/material';
 import ImageBalanceHeader from './ImageBalanceHeader';
+import { useBlockchainContext } from '../../contexts/BlockchainContextProvider';
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 export default function ReflaxAppBar() {
-  
+  const { balances } = useBlockchainContext()
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" >
@@ -40,12 +42,11 @@ export default function ReflaxAppBar() {
 
           {/* This Box will take up the remaining space */}
           <Box sx={{ flexGrow: 1 }} />
-
           {/* Right-aligned Box for items on the right */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <ImageBalanceHeader name="Flax" balance='1000' image={FlaxICO} />
-            <ImageBalanceHeader name="sFlax" balance='21000' image={sFlaxICO} unclaimed='4000' />
-            <ImageBalanceHeader name="USDC" balance='5000' image={USDC} />
+            <ImageBalanceHeader name="Flax" balance={balances.flaxBalance} image={FlaxICO} decimalPlaces={18} />
+            <ImageBalanceHeader name="sFlax" balance={balances.sFlaxBalance} image={sFlaxICO} unclaimed={balances.unclaimedSFlax} decimalPlaces={18} />
+            <ImageBalanceHeader name="USDC" balance={balances.usdcBalance} image={USDC} decimalPlaces={6} />
             <ConnectButton />
           </Box>
         </Toolbar>

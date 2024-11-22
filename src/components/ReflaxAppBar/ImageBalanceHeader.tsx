@@ -1,14 +1,16 @@
 import * as React from 'react';
 import { Box, Typography, useMediaQuery, Theme, IconButton, Popover } from '@mui/material';
+import { formatUnits } from 'ethers'
 
-const ImageBalanceHeader = (props: { image: any, name: string, balance: string, unclaimed?: string }) => {
+const ImageBalanceHeader = (props: { image: any, name: string, balance: bigint | undefined, unclaimed?: bigint | undefined, decimalPlaces: number }) => {
   // State to manage popover open/close
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   // Use Material UI's breakpoint to check screen size
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
-  const displayText = `${props.name}: ${props.balance} ${props.unclaimed ? "(unclaimed: " + props.unclaimed + ")" : ""}`;
+  const balanceString = props.balance === undefined ? '-' : `${formatUnits(props.balance, props.decimalPlaces)}`
+  const displayText = `${props.name}: ${balanceString} ${props.unclaimed ? "(unclaimed: " + props.unclaimed + ")" : ""}`;
 
   // Handle popover open
   const handleIconClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -25,7 +27,7 @@ const ImageBalanceHeader = (props: { image: any, name: string, balance: string, 
   const id = open ? 'balance-popover' : undefined;
 
   return (
-    <Box sx={{ mr: isSmallScreen?0:2, display: 'flex', alignItems: 'center' }}>
+    <Box sx={{ mr: isSmallScreen ? 0 : 2, display: 'flex', alignItems: 'center' }}>
       {isSmallScreen ? (
         // On small screens, show only the icon and make it clickable
         <>
