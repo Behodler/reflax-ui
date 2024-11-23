@@ -97,6 +97,20 @@ export const aVaultAbi = [
   },
   {
     type: 'function',
+    inputs: [{ name: 'caller', internalType: 'address', type: 'address' }],
+    name: 'updateAccounting',
+    outputs: [
+      { name: 'unclaimedFlax', internalType: 'uint256', type: 'uint256' },
+      {
+        name: 'aggregateFlaxPerShare',
+        internalType: 'uint256',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
     inputs: [{ name: 'token', internalType: 'address', type: 'address' }],
     name: 'withdrawUnaccountedForToken',
     outputs: [],
@@ -362,7 +376,6 @@ export const flaxLockerAbi = [
     name: 'config',
     outputs: [
       { name: 'flax', internalType: 'contract IERC20', type: 'address' },
-      { name: 'basisPointsBoost', internalType: 'uint256', type: 'uint256' },
       {
         name: 'sFlaxEarning_baseline',
         internalType: 'uint256',
@@ -418,7 +431,6 @@ export const flaxLockerAbi = [
     inputs: [
       { name: 'flax', internalType: 'address', type: 'address' },
       { name: 'sFlax', internalType: 'address', type: 'address' },
-      { name: 'basisPointsBoost', internalType: 'uint256', type: 'uint256' },
       {
         name: 'sFlaxEarning_baseline',
         internalType: 'uint256',
@@ -518,125 +530,6 @@ export const flaxLockerAbi = [
     name: 'OwnableUnauthorizedAccount',
   },
   { type: 'error', inputs: [], name: 'ReentrancyGuardReentrantCall' },
-] as const
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// IsFlax
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export const isFlaxAbi = [
-  {
-    type: 'function',
-    inputs: [
-      { name: 'owner', internalType: 'address', type: 'address' },
-      { name: 'spender', internalType: 'address', type: 'address' },
-    ],
-    name: 'allowance',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'value', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'approve',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'balanceOf',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
-    name: 'burn',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'holder', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'burnFrom',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [],
-    name: 'totalSupply',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'value', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'transfer',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address' },
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'value', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'transferFrom',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      {
-        name: 'owner',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'spender',
-        internalType: 'address',
-        type: 'address',
-        indexed: true,
-      },
-      {
-        name: 'value',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-    ],
-    name: 'Approval',
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address', indexed: true },
-      { name: 'to', internalType: 'address', type: 'address', indexed: true },
-      {
-        name: 'value',
-        internalType: 'uint256',
-        type: 'uint256',
-        indexed: false,
-      },
-    ],
-    name: 'Transfer',
-  },
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1187,6 +1080,13 @@ export const usdcV1Abi = [
   },
   {
     type: 'function',
+    inputs: [],
+    name: 'maxStake',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     inputs: [
       { name: 'newYieldSource', internalType: 'address', type: 'address' },
     ],
@@ -1248,6 +1148,20 @@ export const usdcV1Abi = [
     inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
     name: 'transferOwnership',
     outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'caller', internalType: 'address', type: 'address' }],
+    name: 'updateAccounting',
+    outputs: [
+      { name: 'unclaimedFlax', internalType: 'uint256', type: 'uint256' },
+      {
+        name: 'aggregateFlaxPerShare',
+        internalType: 'uint256',
+        type: 'uint256',
+      },
+    ],
     stateMutability: 'nonpayable',
   },
   {
@@ -1699,6 +1613,15 @@ export const useWriteAVaultTransferOwnership =
   })
 
 /**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aVaultAbi}__ and `functionName` set to `"updateAccounting"`
+ */
+export const useWriteAVaultUpdateAccounting =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: aVaultAbi,
+    functionName: 'updateAccounting',
+  })
+
+/**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link aVaultAbi}__ and `functionName` set to `"withdrawUnaccountedForToken"`
  */
 export const useWriteAVaultWithdrawUnaccountedForToken =
@@ -1748,6 +1671,15 @@ export const useSimulateAVaultTransferOwnership =
   /*#__PURE__*/ createUseSimulateContract({
     abi: aVaultAbi,
     functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link aVaultAbi}__ and `functionName` set to `"updateAccounting"`
+ */
+export const useSimulateAVaultUpdateAccounting =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: aVaultAbi,
+    functionName: 'updateAccounting',
   })
 
 /**
@@ -2192,158 +2124,6 @@ export const useWatchFlaxLockerSFlaxSetEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: flaxLockerAbi,
     eventName: 'SFlax_set',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link isFlaxAbi}__
- */
-export const useReadIsFlax = /*#__PURE__*/ createUseReadContract({
-  abi: isFlaxAbi,
-})
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link isFlaxAbi}__ and `functionName` set to `"allowance"`
- */
-export const useReadIsFlaxAllowance = /*#__PURE__*/ createUseReadContract({
-  abi: isFlaxAbi,
-  functionName: 'allowance',
-})
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link isFlaxAbi}__ and `functionName` set to `"balanceOf"`
- */
-export const useReadIsFlaxBalanceOf = /*#__PURE__*/ createUseReadContract({
-  abi: isFlaxAbi,
-  functionName: 'balanceOf',
-})
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link isFlaxAbi}__ and `functionName` set to `"totalSupply"`
- */
-export const useReadIsFlaxTotalSupply = /*#__PURE__*/ createUseReadContract({
-  abi: isFlaxAbi,
-  functionName: 'totalSupply',
-})
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link isFlaxAbi}__
- */
-export const useWriteIsFlax = /*#__PURE__*/ createUseWriteContract({
-  abi: isFlaxAbi,
-})
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link isFlaxAbi}__ and `functionName` set to `"approve"`
- */
-export const useWriteIsFlaxApprove = /*#__PURE__*/ createUseWriteContract({
-  abi: isFlaxAbi,
-  functionName: 'approve',
-})
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link isFlaxAbi}__ and `functionName` set to `"burn"`
- */
-export const useWriteIsFlaxBurn = /*#__PURE__*/ createUseWriteContract({
-  abi: isFlaxAbi,
-  functionName: 'burn',
-})
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link isFlaxAbi}__ and `functionName` set to `"burnFrom"`
- */
-export const useWriteIsFlaxBurnFrom = /*#__PURE__*/ createUseWriteContract({
-  abi: isFlaxAbi,
-  functionName: 'burnFrom',
-})
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link isFlaxAbi}__ and `functionName` set to `"transfer"`
- */
-export const useWriteIsFlaxTransfer = /*#__PURE__*/ createUseWriteContract({
-  abi: isFlaxAbi,
-  functionName: 'transfer',
-})
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link isFlaxAbi}__ and `functionName` set to `"transferFrom"`
- */
-export const useWriteIsFlaxTransferFrom = /*#__PURE__*/ createUseWriteContract({
-  abi: isFlaxAbi,
-  functionName: 'transferFrom',
-})
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link isFlaxAbi}__
- */
-export const useSimulateIsFlax = /*#__PURE__*/ createUseSimulateContract({
-  abi: isFlaxAbi,
-})
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link isFlaxAbi}__ and `functionName` set to `"approve"`
- */
-export const useSimulateIsFlaxApprove = /*#__PURE__*/ createUseSimulateContract(
-  { abi: isFlaxAbi, functionName: 'approve' },
-)
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link isFlaxAbi}__ and `functionName` set to `"burn"`
- */
-export const useSimulateIsFlaxBurn = /*#__PURE__*/ createUseSimulateContract({
-  abi: isFlaxAbi,
-  functionName: 'burn',
-})
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link isFlaxAbi}__ and `functionName` set to `"burnFrom"`
- */
-export const useSimulateIsFlaxBurnFrom =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: isFlaxAbi,
-    functionName: 'burnFrom',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link isFlaxAbi}__ and `functionName` set to `"transfer"`
- */
-export const useSimulateIsFlaxTransfer =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: isFlaxAbi,
-    functionName: 'transfer',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link isFlaxAbi}__ and `functionName` set to `"transferFrom"`
- */
-export const useSimulateIsFlaxTransferFrom =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: isFlaxAbi,
-    functionName: 'transferFrom',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link isFlaxAbi}__
- */
-export const useWatchIsFlaxEvent = /*#__PURE__*/ createUseWatchContractEvent({
-  abi: isFlaxAbi,
-})
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link isFlaxAbi}__ and `eventName` set to `"Approval"`
- */
-export const useWatchIsFlaxApprovalEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: isFlaxAbi,
-    eventName: 'Approval',
-  })
-
-/**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link isFlaxAbi}__ and `eventName` set to `"Transfer"`
- */
-export const useWatchIsFlaxTransferEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: isFlaxAbi,
-    eventName: 'Transfer',
   })
 
 /**
@@ -2836,6 +2616,14 @@ export const useReadUsdcV1Config = /*#__PURE__*/ createUseReadContract({
 })
 
 /**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdcV1Abi}__ and `functionName` set to `"maxStake"`
+ */
+export const useReadUsdcV1MaxStake = /*#__PURE__*/ createUseReadContract({
+  abi: usdcV1Abi,
+  functionName: 'maxStake',
+})
+
+/**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link usdcV1Abi}__ and `functionName` set to `"owner"`
  */
 export const useReadUsdcV1Owner = /*#__PURE__*/ createUseReadContract({
@@ -2915,6 +2703,15 @@ export const useWriteUsdcV1TransferOwnership =
   /*#__PURE__*/ createUseWriteContract({
     abi: usdcV1Abi,
     functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link usdcV1Abi}__ and `functionName` set to `"updateAccounting"`
+ */
+export const useWriteUsdcV1UpdateAccounting =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: usdcV1Abi,
+    functionName: 'updateAccounting',
   })
 
 /**
@@ -3000,6 +2797,15 @@ export const useSimulateUsdcV1TransferOwnership =
   /*#__PURE__*/ createUseSimulateContract({
     abi: usdcV1Abi,
     functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link usdcV1Abi}__ and `functionName` set to `"updateAccounting"`
+ */
+export const useSimulateUsdcV1UpdateAccounting =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: usdcV1Abi,
+    functionName: 'updateAccounting',
   })
 
 /**

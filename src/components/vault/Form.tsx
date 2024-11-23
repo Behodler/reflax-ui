@@ -21,8 +21,7 @@ import USDCICO from "../../images/USDC.png"
 import { Stack, Tab, Tabs, Tooltip, useMediaQuery, useTheme } from '@mui/material';
 import { useState } from 'react';
 import NumberTextField from '../Commmon/NumberTextField';
-import TransactionButton from '../TransactionButton';
-import { useWriteIsFlax } from '../../hooks/contract/reflax';
+import TransactionButton from '../TransactionButton' ;
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',

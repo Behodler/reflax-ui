@@ -11,7 +11,7 @@ import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
 import { Divider } from '@mui/material';
 import { useReadAVaultConfig } from '../../hooks/contract/reflax';
-import { useBlockchainContext } from '../../contexts/BlockchainContextProvider';
+import { big_optional, useBlockchainContext } from '../../contexts/BlockchainContextProvider';
 
 interface LineItem {
   icon: any,
@@ -22,28 +22,39 @@ interface LineItem {
   important?: boolean
 }
 
-const getLineItems = (apy: bigint ) => {
+const getLineItems = (apy: bigint, sFlaxBalance: big_optional,
+  totalDeposits: big_optional, maxStake: big_optional, deposit: big_optional,
+  unclaimed: big_optional) => {
 
+  let boostString = '-'
+  if (sFlaxBalance !== undefined) {
+    sFlaxBalance = sFlaxBalance > 200_000n ? 200_000n : sFlaxBalance;
+    boostString = `${(Number(sFlaxBalance) / 1000).toFixed(2)}%`
+  }
+
+  totalDeposits = (totalDeposits || 0n) / 1000_000n;
+  const utilizationRatio = maxStake === undefined || maxStake === 0n ? 0n : (totalDeposits * 10000n / maxStake)
+  const utilizationString = (Number(utilizationRatio) / 100).toFixed()
   return [
     {
       icon: <ShowChartIcon sx={{ color: 'text.secondary' }} />,
       title: 'Base APY',
       description:
-        `${apy==0n?'-':apy}%`,
+        `${apy == 0n ? '-' : apy}%`,
       important: true
     },
     {
       icon: <InsightsIcon sx={{ color: 'text.secondary' }} />,
       title: 'Boost',
       description:
-        '1% per 10000 sFlax',
+        '1% per 1000 sFlax',
       important: true
     },
     {
       icon: <RocketLaunchIcon sx={{ color: 'text.secondary' }} />,
       title: 'Your effective APY',
       description:
-        '23%',
+        boostString,
       important: true,
       divider: true
     },
@@ -51,31 +62,31 @@ const getLineItems = (apy: bigint ) => {
       icon: <AccountBalanceIcon sx={{ color: 'text.secondary' }} />,
       title: 'Total Deposits',
       description:
-        '2000 USDC',
+        `${totalDeposits} USDC`,
     },
     {
       icon: <AssuredWorkloadIcon sx={{ color: 'text.secondary' }} />,
       title: 'Maximum Allowable Deposit',
       description:
-        '5000 USDC',
+        `${(maxStake || 0n) / 1000_000n} USDC`,
     },
     {
       icon: <AgricultureIcon sx={{ color: 'text.secondary' }} />,
       title: 'Your Deposit',
       description:
-        '780.10 USDC',
+        `${((Number(deposit || 0n) / 1000_000).toFixed(2))} USDC`,
     },
     {
       icon: <DataThresholdingIcon sx={{ color: 'text.secondary' }} />,
       title: 'Unclaimed rewards (estimate)',
       description:
-        '2000 Flax',
+        `${((Number(unclaimed || 0n) / 1000_000).toFixed(2))}  Flax`,
     },
     {
       icon: <Assesment sx={{ color: 'text.secondary' }} />,
       title: 'Utilization Ratio',
       description:
-        '40%',
+        `${utilizationString}%`,
     },
 
 
@@ -84,16 +95,17 @@ const getLineItems = (apy: bigint ) => {
 export default function Stats() {
 
   //
-  const { vaultStats } = useBlockchainContext()
-  const { TVIPS } = vaultStats
+  const { vaultStats, balances } = useBlockchainContext()
+  const { TVIPS, totalDeposits, maxStake, deposit, unclaimed } = vaultStats
+  const { sFlaxBalance } = balances
 
   const SECONDS_IN_YEAR = 31_536_000n; // 365 days * 24 hours * 60 minutes * 60 seconds
   const SCALE_FACTOR = 1_000_000_000_000n; // 1e12 for trillion adjustment
 
 
   // Calculate APY
-  const apy = (((TVIPS || 0n) * SECONDS_IN_YEAR*100n) / SCALE_FACTOR); 
-  const items: LineItem[] = getLineItems(apy)
+  const apy = (((TVIPS || 0n) * SECONDS_IN_YEAR * 100n) / SCALE_FACTOR);
+  const items: LineItem[] = getLineItems(apy, sFlaxBalance, totalDeposits, maxStake, deposit, unclaimed)
   return (
     <Stack
       sx={{
