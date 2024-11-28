@@ -6,6 +6,7 @@ interface TransactionButtonProps {
     transactionText: string
     transactionFunction: () => void
     width: number
+    disabled?:boolean
     spinning?: boolean
 }
 
@@ -13,9 +14,9 @@ export default function TransactionButton({ approved,
     approveFunction,
     transactionText,
     transactionFunction,
-    width, spinning }: TransactionButtonProps) {
+    width, spinning,disabled }: TransactionButtonProps) {
     if (approved) {
-        return spinning ? <CircularProgress /> : <Button
+        return spinning ? <CircularProgress /> : <Button disabled={disabled}
             sx={{
                 width: `${width}px`,
                 marginLeft: '10px'  // Prevents the button from having a default min width

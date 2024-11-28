@@ -12,6 +12,8 @@ import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
 import { Divider } from '@mui/material';
 import { useReadAVaultConfig } from '../../hooks/contract/reflax';
 import { big_optional, useBlockchainContext } from '../../contexts/BlockchainContextProvider';
+import { useVaultContext } from '../../contexts/VaultContextProvider';
+import { useBalancesContext } from '../../contexts/BalancesContextProvider';
 
 interface LineItem {
   icon: any,
@@ -93,11 +95,8 @@ const getLineItems = (apy: bigint, sFlaxBalance: big_optional,
   ];
 }
 export default function Stats() {
-
-  //
-  const { vaultStats, balances } = useBlockchainContext()
-  const { TVIPS, totalDeposits, maxStake, deposit, unclaimed } = vaultStats
-  const { sFlaxBalance } = balances
+  const { TVIPS, totalDeposits, maxStake, deposit, unclaimed } = useVaultContext()
+  const { sFlaxBalance } = useBalancesContext()
 
   const SECONDS_IN_YEAR = 31_536_000n; // 365 days * 24 hours * 60 minutes * 60 seconds
   const SCALE_FACTOR = 1_000_000_000_000n; // 1e12 for trillion adjustment

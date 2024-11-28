@@ -19,9 +19,10 @@ import ConvexICO from "../../images/Convex.png"
 import USDCICO from "../../images/USDC.png"
 
 import { Stack, Tab, Tabs, Tooltip, useMediaQuery, useTheme } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import NumberTextField from '../Commmon/NumberTextField';
-import TransactionButton from '../TransactionButton' ;
+import TransactionButton from '../TransactionButton';
+import { useVaultContext } from '../../contexts/VaultContextProvider';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -64,6 +65,7 @@ function TabPanel(props: any) {
 
 export default function Form() {
   const theme = useTheme();
+  const { allowance } = useVaultContext()
   const isMediumOrLarger = useMediaQuery(theme.breakpoints.up('md')); // Check if screen is medium or larger
 
   const [emailError, setEmailError] = React.useState(false);
@@ -73,7 +75,25 @@ export default function Form() {
   const [open, setOpen] = useState(false);
   const [tabIndex, setTabIndex] = useState<number>(0);
   const [usdc, setUsdc] = useState<string>("")
+
   const [approved, setApprove] = useState<boolean>(false)
+  const [approveButtonDisabled, setApproveButtonDisabled] = useState<boolean>(true)
+  
+  useEffect(() => {
+    if (allowance === undefined) {
+      setApproveButtonDisabled(true)
+    } else {
+      setApproveButtonDisabled(false)
+      const usdcNum = parseFloat(usdc)
+      if (isNaN(usdcNum) && allowance > 0) {
+        setApprove(true)
+      } else {
+        setApprove(usdcNum < allowance)
+      }
+    }
+
+  }, [usdc, allowance])
+
   const approveFunction = () => {
     setTimeout(() => {
       setApprove(true)
@@ -265,6 +285,7 @@ export default function Form() {
               transactionFunction={transactionFunction}
               transactionText="deposit"
               width={100}
+              disabled={approveButtonDisabled}
             />
           </Box>
         </Box>

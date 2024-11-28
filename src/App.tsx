@@ -9,6 +9,9 @@ import AppTheme from "./components/shared-theme/AppTheme";
 import { CssBaseline } from "@mui/material";
 import Landing from "./pages/Landing";
 import { BlockchainContextProvider } from "./contexts/BlockchainContextProvider";
+import { BalancesContextProvider } from "./contexts/BalancesContextProvider";
+import { LockerContextProvider } from "./contexts/LockerContextProvider";
+import { VaultContextProvider } from "./contexts/VaultContextProvider";
 
 export default function App() {
   return (
@@ -16,13 +19,18 @@ export default function App() {
 
       <CssBaseline enableColorScheme />
       <BlockchainContextProvider>
-        <ReflaxAppBar />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Landing />} />
-
-          </Routes>
-        </BrowserRouter>
+        <BalancesContextProvider>
+          <ReflaxAppBar />
+          <LockerContextProvider>
+            <VaultContextProvider>
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/" element={<Landing />} />
+                </Routes>
+              </BrowserRouter>
+            </VaultContextProvider>
+          </LockerContextProvider>
+        </BalancesContextProvider>
       </BlockchainContextProvider>
     </AppTheme>
   );

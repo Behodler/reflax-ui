@@ -17,49 +17,80 @@ import InsightsIcon from '@mui/icons-material/Insights';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-const items = [
-  {
-    icon: <AccountBalanceIcon sx={{ color: 'text.secondary' }} />,
-    title: 'Total Locked Flax',
-    description:
-      '400000',
-  },
+import { big_optional } from '../../contexts/BlockchainContextProvider';
+import { useLockerContext } from '../../contexts/LockerContextProvider';
+import { ethers } from 'ethers';
 
-  {
-    icon: <AgricultureIcon sx={{ color: 'text.secondary' }} />,
-    title: 'Your Locked Flax',
-    description:
-      '20000',
-  },
-  {
-    icon: <DataThresholdingIcon sx={{ color: 'text.secondary' }} />,
-    title: 'Unclaimed sFlax',
-    description:
-      '205',
-  },
-  {
-    icon: <AccessTimeIcon sx={{ color: 'text.secondary' }} />,
-    title: 'Time remaining to unlock',
-    description:
-      '900 days',
+
+function parseEther(number: big_optional): string {
+  if (number) {
+    return ethers.formatEther(`${number}`)
   }
+  return "-"
+}
 
-];
+const getItems = (totalLocked: big_optional, lockedUserFlax: big_optional, unclaimedSFlax: big_optional, timeRemaining: big_optional) => {
 
+  let timeRemainingString = "-"
+  if (timeRemaining) {
+
+
+    const day = 86400n;
+    const daysRemaining = (timeRemaining) / day;
+    const leftOverHours = timeRemaining - daysRemaining * day;
+    const hoursRemaining = leftOverHours / (60n * 60n);
+
+    if (daysRemaining > 0)
+      timeRemainingString += `${daysRemaining} day${daysRemaining > 1 ? 's' : ''}`
+    if (hoursRemaining > 0)
+      timeRemainingString += `${daysRemaining > 0 ? ', ' : ''}${hoursRemaining} hour${hoursRemaining > 1 ? 's' : ''}`
+  }
+  return [
+    {
+      icon: <AccountBalanceIcon sx={{ color: 'text.secondary' }} />,
+      title: 'Total Locked Flax',
+      description:
+        parseEther(totalLocked),
+    },
+
+    {
+      icon: <AgricultureIcon sx={{ color: 'text.secondary' }} />,
+      title: 'Your Locked Flax',
+      description:
+        parseEther(lockedUserFlax),
+    },
+    {
+      icon: <DataThresholdingIcon sx={{ color: 'text.secondary' }} />,
+      title: 'Unclaimed sFlax',
+      description:
+        parseEther(unclaimedSFlax),
+    },
+    {
+      icon: <AccessTimeIcon sx={{ color: 'text.secondary' }} />,
+      title: 'Time remaining to unlock',
+      description:
+        timeRemainingString,
+    }
+
+  ];
+}
 export default function Stats() {
+  const { timeRemaining, unclaimedSFlax, userLockedFlax, totalLockedFlax } = useLockerContext()
+  const items = getItems(totalLockedFlax, userLockedFlax, unclaimedSFlax, timeRemaining)
+
   return (
     <Stack
       sx={{
         border: '1px solid rgba(200,200,200,0.4)',
         padding: '20px', flexDirection: 'column',
-        alignSelf: 'center', gap: 1, width:"300px"
+        alignSelf: 'center', gap: 1, width: "300px"
       }}
     >
       {items.map((item, index) => (
         <Stack key={index} direction="row" sx={{ gap: 2 }}>
           {item.icon}
           <div>
-            <Typography gutterBottom sx={{ fontWeight: 'medium', color:"white" }}>
+            <Typography gutterBottom sx={{ fontWeight: 'medium', color: "white" }}>
               {item.title}
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
