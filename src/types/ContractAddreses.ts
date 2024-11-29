@@ -19,6 +19,8 @@ export interface ContractAddresses_unsettable {
     boosterV1: unsettableAddress;
   }
 
+  export const MAX_UINT = 115792089237316195423570985008687907853269984665640564039457584007913129639935n;
+
 export interface ConstractAddresses_nullable {
   USDC: address;
   USDe: address;

@@ -1,10 +1,8 @@
-import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
-import { ConstractAddresses_nullable, ContractAddresses_unsettable, defaultContractAddresses_nullable, defaultContractAddresses_unsettable } from '../types/ContractAddreses';
-import { useAccount, useChainId, useSimulateContract } from 'wagmi';
-import { useAddresses } from '../hooks/useAddresses';
-import { chain, create } from 'lodash';
-import { useReadAVaultBalanceOf, useReadAVaultConfig, useReadFlaxAllowance, useReadFlaxBalanceOf, useReadFlaxLockerUnclaimedSFlax, useReadFlaxLockerUserStakingInfo, useReadSFlaxBalanceOf, useReadUsdcV1MaxStake, useSimulateAVault, useWatchAVaultEvent } from '../hooks/contract/reflax';
+import React, { ReactNode, createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { useWaitForTransactionReceipt, useWriteContract } from 'wagmi'
+import { flaxAbi, useReadAVaultBalanceOf, useReadAVaultConfig, useReadFlaxAllowance, useReadFlaxBalanceOf, useReadFlaxLockerUnclaimedSFlax, useReadFlaxLockerUserStakingInfo, useReadSFlaxBalanceOf, useReadUsdcV1MaxStake, useSimulateAVault, useWatchAVaultEvent, useWriteFlaxApprove } from '../hooks/contract/reflax';
 import { useBlockchainContext } from './BlockchainContextProvider';
+import { MAX_UINT } from '../types/ContractAddreses';
 
 export type big_optional = bigint | undefined
 
@@ -14,7 +12,8 @@ interface VaultStats {
     maxStake: big_optional
     deposit: big_optional
     unclaimed: big_optional
-    allowance: big_optional
+    allowance: big_optional,
+    approveVault: () => void
 }
 
 interface VaultStatsProviderProps {
@@ -27,7 +26,8 @@ const LockerContext = createContext<VaultStats>({
     maxStake: undefined,
     deposit: undefined,
     unclaimed: undefined,
-    allowance: undefined
+    allowance: undefined,
+    approveVault: () => { console.log('loading') }
 })
 
 export function VaultContextProvider(props: VaultStatsProviderProps) {
@@ -41,8 +41,21 @@ export function VaultContextProvider(props: VaultStatsProviderProps) {
 
     const { data: deposit } = useReadAVaultBalanceOf({ address: addresses.vault, args: [account] })
     const { data: maxStake } = useReadUsdcV1MaxStake({ address: addresses.vault })
-    const { data: allowance } = useReadFlaxAllowance({ address: addresses.Flax, args: [account, addresses.vault || '0x0'] })
+    const { data: allowance } = useReadFlaxAllowance({ address: addresses.USDC, args: [account, addresses.vault || '0x0'] })
 
+    const { writeContract } = useWriteFlaxApprove()
+    const approveVault = useMemo(() => {
+        if (!addresses?.Flax || !addresses?.vault) {
+            return () => console.error("Addresses are not loaded yet");
+        }
+        return () => {
+            writeContract({
+                address: addresses.USDC!,
+                args: [addresses.vault!, MAX_UINT],
+            });
+            console.log('executed')
+        }
+    }, [addresses, writeContract]);
 
     const { data: unclaimedFlax } = useSimulateAVault({
         address: '0x6b175474e89094c44da98b954eedeac495271d0f',
@@ -52,14 +65,14 @@ export function VaultContextProvider(props: VaultStatsProviderProps) {
         ],
     })
 
-    console.log('allowance ' + allowance)
     return (<LockerContext.Provider value={{
         TVIPS,
         totalDeposits: totalVaultDepositQuery?.data,
         maxStake,
         deposit,
         unclaimed: unclaimedFlax?.result[0],
-        allowance
+        allowance,
+        approveVault
     }} >
         {props.children}
     </LockerContext.Provider>

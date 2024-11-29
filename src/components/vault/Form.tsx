@@ -65,7 +65,7 @@ function TabPanel(props: any) {
 
 export default function Form() {
   const theme = useTheme();
-  const { allowance } = useVaultContext()
+  const { allowance, approveVault } = useVaultContext()
   const isMediumOrLarger = useMediaQuery(theme.breakpoints.up('md')); // Check if screen is medium or larger
 
   const [emailError, setEmailError] = React.useState(false);
@@ -78,7 +78,11 @@ export default function Form() {
 
   const [approved, setApprove] = useState<boolean>(false)
   const [approveButtonDisabled, setApproveButtonDisabled] = useState<boolean>(true)
-  
+
+  useEffect(() => {
+    console.log('approve button disabled ' + approveButtonDisabled)
+  }, [approveButtonDisabled])
+
   useEffect(() => {
     if (allowance === undefined) {
       setApproveButtonDisabled(true)
@@ -94,12 +98,6 @@ export default function Form() {
 
   }, [usdc, allowance])
 
-  const approveFunction = () => {
-    setTimeout(() => {
-      setApprove(true)
-      alert('approved')
-    }, 1000)
-  }
 
   const transactionFunction = () => {
     setTimeout(() => {
@@ -281,7 +279,7 @@ export default function Form() {
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <TransactionButton
               approved={approved}
-              approveFunction={approveFunction}
+              approveFunction={(approveVault)}
               transactionFunction={transactionFunction}
               transactionText="deposit"
               width={100}
@@ -318,7 +316,7 @@ export default function Form() {
             />
             <TransactionButton
               approved={approved}
-              approveFunction={approveFunction}
+              approveFunction={approveVault}
               transactionFunction={transactionFunction}
               transactionText="claim + withdraw"
               width={150}
