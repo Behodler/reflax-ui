@@ -1,5 +1,6 @@
 export type unsettableAddress = `0x${string}` | "UNSET";
-export type address = `0x${string}` | undefined;
+export type address_nonnull =`0x${string}` 
+export type address =  address_nonnull| undefined;
 export interface ContractAddresses_unsettable {
     USDC: unsettableAddress;
     USDe: unsettableAddress;

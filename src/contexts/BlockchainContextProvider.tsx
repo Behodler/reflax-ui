@@ -29,6 +29,8 @@ export function BlockchainContextProvider(props: BlockchainProviderProps) {
     const chainId = useChainId()
     const addresses = useAddresses(chainId)
     const account = (useAccount()).address || '0x0'
+
+
     useEffect(() => {
         if (chainId && addresses) {
             setConnected(true)

@@ -17,7 +17,6 @@ export const useAddresses = (chainId: ChainId | undefined) => {
 
 
     useEffect(() => {
-        console.log('chain id changed')
         if (deferredChainId) {
 
             if (deferredChainId == ChainId.anvil) {

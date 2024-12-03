@@ -23,6 +23,7 @@ import { useEffect, useState } from 'react';
 import NumberTextField from '../Commmon/NumberTextField';
 import TransactionButton from '../TransactionButton';
 import { useVaultContext } from '../../contexts/VaultContextProvider';
+import { TX_status } from '../../types/TX_Status';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -65,7 +66,7 @@ function TabPanel(props: any) {
 
 export default function Form() {
   const theme = useTheme();
-  const { allowance, approveVault } = useVaultContext()
+  const { allowance, approveVault, approveVaultStatus } = useVaultContext()
   const isMediumOrLarger = useMediaQuery(theme.breakpoints.up('md')); // Check if screen is medium or larger
 
   const [emailError, setEmailError] = React.useState(false);
@@ -79,9 +80,6 @@ export default function Form() {
   const [approved, setApprove] = useState<boolean>(false)
   const [approveButtonDisabled, setApproveButtonDisabled] = useState<boolean>(true)
 
-  useEffect(() => {
-    console.log('approve button disabled ' + approveButtonDisabled)
-  }, [approveButtonDisabled])
 
   useEffect(() => {
     if (allowance === undefined) {
@@ -99,7 +97,7 @@ export default function Form() {
   }, [usdc, allowance])
 
 
-  const transactionFunction = () => {
+  const transactionFunction = async () => {
     setTimeout(() => {
       setApprove(true)
       alert('transaction confirmed')
@@ -284,6 +282,7 @@ export default function Form() {
               transactionText="deposit"
               width={100}
               disabled={approveButtonDisabled}
+              spinning={approveVaultStatus === TX_status.loading}
             />
           </Box>
         </Box>

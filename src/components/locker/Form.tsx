@@ -24,6 +24,8 @@ import NumberTextField from '../Commmon/NumberTextField';
 import TransactionButton from '../TransactionButton';
 import DurationSlider from './DurationSlider';
 import { Label } from '@mui/icons-material';
+import { useLockerContext } from '../../contexts/LockerContextProvider';
+import { TX_status } from '../../types/TX_Status';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -67,7 +69,7 @@ export default function Form() {
   const isMediumOrLarger = useMediaQuery(theme.breakpoints.up('md')); // Check if screen is medium or larger
   const [lockDuration, setLockDuration] = useState<number>(3)
   const [emailError, setEmailError] = React.useState(false);
-
+  const { allowance, approveLocker, approveLockerStatus } = useLockerContext()
 
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
@@ -75,12 +77,34 @@ export default function Form() {
   const [openLockApproval, setOpenLockApproval] = useState(false);
   const [tabIndex, setTabIndex] = useState<number>(0);
   const [flaxToLock, setFlaxToLock] = useState<string>("")
-  const [approved, setApprove] = useState<boolean>(false)
+
   const [sFlaxPerDay, setSFlaxPerDay] = useState<number>(0)
+
+  const [approved, setApprove] = useState<boolean>(false)
+  const [approveButtonDisabled, setApproveButtonDisabled] = useState<boolean>(true)
+  //TODO: allowance and approve
+
+  useEffect(() => {
+    if (allowance === undefined) {
+      setApproveButtonDisabled(true)
+    } else {
+
+      setApproveButtonDisabled(false)
+
+      const flaxToLockNum = parseFloat(flaxToLock.trim() === "" ? "0" : flaxToLock)
+      if (isNaN(flaxToLockNum) && allowance > 0) {
+        setApprove(true)
+      } else {
+        const result: boolean = flaxToLockNum < allowance
+        // setApprove(false)//TODO: DELETE
+        setApprove(flaxToLockNum < allowance)
+      }
+    }
+  }, [flaxToLock, allowance])
 
   useEffect(() => {
     const flaxToLock_num = parseFloat(flaxToLock)
-    
+
     if (isNaN(flaxToLock_num)) {
       setSFlaxPerDay(0)
     }
@@ -89,17 +113,9 @@ export default function Form() {
     }
   }, [lockDuration, flaxToLock])
 
-  useEffect(() => {
-    console.log('sFlax per day' + sFlaxPerDay)
-  }, [sFlaxPerDay])
-  const approveFunction = () => {
-    setTimeout(() => {
-      setApprove(true)
-      alert('approved')
-    }, 1000)
-  }
 
-  const transactionFunction = () => {
+
+  const transactionFunction = async () => {
     setTimeout(() => {
       setOpenLockApproval(true)
     }, 1)
@@ -117,8 +133,8 @@ export default function Form() {
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-   event.preventDefault()
-    
+    event.preventDefault()
+
   };
 
 
@@ -209,10 +225,13 @@ export default function Form() {
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <TransactionButton
               approved={approved}
-              approveFunction={approveFunction}
+              approveFunction={approveLocker}
               transactionFunction={transactionFunction}
+
               transactionText="lock"
               width={100}
+              disabled={approveButtonDisabled}
+              spinning={approveLockerStatus === TX_status.loading}
             />
           </Box>
         </Box>
@@ -235,7 +254,6 @@ export default function Form() {
             />
             <TransactionButton
               approved={approved}
-              approveFunction={approveFunction}
               transactionFunction={transactionFunction}
               transactionText="unlock Flax"
               width={130}

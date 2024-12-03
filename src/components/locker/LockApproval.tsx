@@ -58,7 +58,7 @@ export default function LockAppovalDialogue({ open, handleClose, sFlaxPerDay, lo
       </DialogContent>
       <DialogActions sx={{ pb: 3, px: 3 }}>
         <Button onClick={handleClose}>Cancel</Button>
-        <TransactionButton approved={true} transactionText='Confirm' transactionFunction={transactionFunction} width={120} spinning={isSpinning} />
+        <TransactionButton approved={true} transactionText='Confirm' transactionFunction={transactionFunction} width={120} spinning />
       </DialogActions>
     </Dialog>
   );
